@@ -77,7 +77,7 @@ export default function BudgetProgress({
                 <Tooltip 
                   contentStyle={{ backgroundColor: '#111827', border: 'none', borderRadius: '12px' }}
                   itemStyle={{ color: '#fff' }}
-                  formatter={(value: any) => displayAmount(Number(value))}
+                  formatter={(value: any) => [displayAmount(Number(value || 0)), '']}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -100,7 +100,7 @@ export default function BudgetProgress({
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#374151" opacity={0.1} />
                 <XAxis dataKey="category" axisLine={false} tickLine={false} tick={{ fontSize: 10, fontWeight: 700 }} />
                 <YAxis hide />
-                <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ backgroundColor: '#111827', border: 'none', borderRadius: '12px' }} formatter={(value: any) => displayAmount(Number(value))} />
+                <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ backgroundColor: '#111827', border: 'none', borderRadius: '12px' }} formatter={(value: any) => [displayAmount(Number(value || 0)), '']} />
                 <Bar dataKey="planeado" fill="#374151" radius={[4, 4, 0, 0]} opacity={0.2} name={language === 'es' ? 'Planeado' : 'Planned'} />
                 <Bar dataKey="gastado" fill="#10b981" radius={[4, 4, 0, 0]} name={language === 'es' ? 'Gastado' : 'Spent'} />
               </BarChart>
@@ -123,6 +123,7 @@ export default function BudgetProgress({
                   <h4 className="font-black text-gray-900 dark:text-white uppercase tracking-tighter">{budget.category}</h4>
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t.limit}</p>
                 </div>
+                {/* Ajuste para móvil: Visibles siempre en móviles, hover en desktop */}
                 <div className="flex gap-2 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                   <button 
                     onClick={() => setEditingBudget(budget)}

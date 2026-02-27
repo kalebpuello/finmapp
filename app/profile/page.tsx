@@ -144,7 +144,7 @@ export default function ProfilePage() {
           {/* Preferencias */}
           <section className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-8 rounded-[2rem] shadow-sm">
             <div className="flex items-center gap-3 mb-6">
-              <div className="bg-blue-100 dark:bg-blue-500/10 p-2.5 rounded-xl text-blue-600">
+              <div className="bg-emerald-100 dark:bg-emerald-500/10 p-2.5 rounded-xl text-emerald-600">
                 <Globe size={20} />
               </div>
               <h2 className="text-lg font-black uppercase tracking-tighter">{t.preferences}</h2>
