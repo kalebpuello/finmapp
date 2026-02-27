@@ -5,11 +5,28 @@
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
+  --primary-color: #059669; /* emerald-600 */
+  --primary-color-light: #10b981; /* emerald-500 */
+  --primary-color-bg: #ecfdf5; /* emerald-50 */
 }
 
 .dark {
   --background: #030712;
   --foreground: #f8fafc;
+  --primary-color: #10b981; /* emerald-500 */
+  --primary-color-light: #34d399; /* emerald-400 */
+  --primary-color-bg: rgba(16, 185, 129, 0.1);
+}
+
+@theme {
+  --color-emerald-50: var(--primary-color-bg) !important;
+  --color-emerald-100: var(--primary-color-bg) !important;
+  --color-emerald-400: var(--primary-color-light) !important;
+  --color-emerald-500: var(--primary-color-light) !important;
+  --color-emerald-600: var(--primary-color) !important;
+  --color-emerald-700: var(--primary-color) !important;
+  --color-emerald-800: var(--primary-color) !important;
+  --color-emerald-900: var(--primary-color) !important;
 }
 
 body {

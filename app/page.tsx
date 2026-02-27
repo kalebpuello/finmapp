@@ -7,13 +7,17 @@ import {
   TrendingDown, 
   ChevronRight,
   Target,
-  Trophy
+  Trophy,
+  AlertCircle,
+  ArrowUpRight,
+  ArrowDownRight
 } from 'lucide-react'
 import AddTransactionModal from '@/components/dashboard/AddTransactionModal'
 import { formatCurrency } from '@/lib/utils/currency'
 import { translations, Language } from '@/lib/utils/translations'
 import TransactionList from '@/components/dashboard/TransactionList'
 import Navbar from '@/components/dashboard/Navbar'
+import WhatsNewModal from '@/components/dashboard/WhatsNewModal'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -38,12 +42,23 @@ export default async function DashboardPage() {
 
   const now = new Date()
   const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
+  const firstDayOfPrevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString()
+  const lastDayOfPrevMonth = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59).toISOString()
   
+  // Transacciones mes actual
   const { data: monthlyTransactions } = await supabase
     .from('transactions')
     .select('*')
     .eq('user_id', user.id)
     .gte('created_at', firstDayOfMonth)
+
+  // Transacciones mes anterior para comparación
+  const { data: prevMonthlyTransactions } = await supabase
+    .from('transactions')
+    .select('*')
+    .eq('user_id', user.id)
+    .gte('created_at', firstDayOfPrevMonth)
+    .lte('created_at', lastDayOfPrevMonth)
 
   const monthlyIncome = monthlyTransactions
     ?.filter(tx => tx.type === 'income')
@@ -52,6 +67,16 @@ export default async function DashboardPage() {
   const monthlyExpense = monthlyTransactions
     ?.filter(tx => tx.type === 'expense')
     .reduce((acc, tx) => acc + Number(tx.amount), 0) || 0
+
+  const prevMonthlyIncome = prevMonthlyTransactions
+    ?.filter(tx => tx.type === 'income')
+    .reduce((acc, tx) => acc + Number(tx.amount), 0) || 0
+
+  // Cálculo de rendimiento (Comparación de ingresos)
+  let performancePercent = 0
+  if (prevMonthlyIncome > 0) {
+    performancePercent = Math.round(((monthlyIncome - prevMonthlyIncome) / prevMonthlyIncome) * 100)
+  }
 
   const { data: recentTransactions } = await supabase
     .from('transactions')
@@ -68,23 +93,57 @@ export default async function DashboardPage() {
     .limit(1)
     .maybeSingle()
 
+  const rawBalance = Number(profile?.total_balance || 0)
+  const isNegative = rawBalance < 0
+  const displayBalance = isNegative ? 0 : rawBalance
+
   const displayAmount = (amount: number) => formatCurrency(amount, profile?.currency || 'COP')
 
   return (
     <div className="min-h-screen pb-12 bg-white dark:bg-gray-950 transition-colors">
-      <Navbar username={profile?.username || 'Usuario'} language={lang} />
+      <Navbar 
+        username={profile?.username || 'Usuario'} 
+        language={lang} 
+        lastVersionSeen={profile?.last_version_seen} 
+        userId={user.id}
+      />
 
       <main className="max-w-5xl mx-auto px-6 py-8">
         <div className="space-y-6 mb-10">
-          <div id="tour-balance" className="bg-emerald-600 dark:bg-emerald-700 rounded-3xl p-8 text-white shadow-xl shadow-emerald-500/10 relative overflow-hidden">
+          <div 
+            id="tour-balance" 
+            className={`${isNegative ? 'bg-rose-600 dark:bg-rose-700' : 'bg-emerald-600 dark:bg-emerald-700'} rounded-3xl p-8 text-white shadow-xl transition-colors duration-500 relative overflow-hidden`}
+          >
             <div className="relative z-10">
-              <p className="text-emerald-100/80 text-sm font-medium mb-1 uppercase tracking-widest">{t.balance}</p>
-              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
-                {displayAmount(profile?.total_balance || 0)}
-              </h1>
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-white/80 text-sm font-medium mb-1 uppercase tracking-widest">{t.balance}</p>
+                  <h1 className="text-4xl sm:text-5xl font-bold tracking-tight" suppressHydrationWarning>
+                    {displayAmount(displayBalance)}
+                  </h1>
+                </div>
+                {performancePercent !== 0 && (
+                  <div className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-black backdrop-blur-md ${performancePercent > 0 ? 'bg-emerald-400/20 text-emerald-100' : 'bg-rose-400/20 text-rose-100'}`} suppressHydrationWarning>
+                    {performancePercent > 0 ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
+                    {Math.abs(performancePercent)}% {lang === 'es' ? 'vs mes anterior' : 'vs prev month'}
+                  </div>
+                )}
+              </div>
+
+              {isNegative && (
+                <div className="mt-4 flex items-center gap-2 bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/20 animate-pulse">
+                  <AlertCircle size={20} className="text-rose-200" />
+                  <p className="text-xs font-bold">
+                    {lang === 'es' 
+                      ? `Tienes una deuda de ${displayAmount(Math.abs(rawBalance))}` 
+                      : `You have a debt of ${displayAmount(Math.abs(rawBalance))}`}
+                  </p>
+                </div>
+              )}
+
               <div className="mt-6 flex items-center gap-4">
-                <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl flex items-center gap-2">
-                  <span className="text-sm font-medium uppercase">
+                <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl flex items-center gap-2" suppressHydrationWarning>
+                  <span className="text-sm font-medium uppercase" suppressHydrationWarning>
                     {now.toLocaleString('es-CO', { month: 'long', year: 'numeric' })}
                   </span>
                 </div>
@@ -106,7 +165,7 @@ export default async function DashboardPage() {
               </div>
               <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">{t.income}</p>
             </div>
-            <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-500">{displayAmount(monthlyIncome)}</p>
+            <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-500" suppressHydrationWarning>{displayAmount(monthlyIncome)}</p>
           </div>
 
           <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6 rounded-2xl shadow-sm">
@@ -116,7 +175,7 @@ export default async function DashboardPage() {
               </div>
               <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">{t.expense}</p>
             </div>
-            <p className="text-2xl font-bold text-rose-600 dark:text-rose-500">{displayAmount(monthlyExpense)}</p>
+            <p className="text-2xl font-bold text-rose-600 dark:text-rose-500" suppressHydrationWarning>{displayAmount(monthlyExpense)}</p>
           </div>
         </div>
 

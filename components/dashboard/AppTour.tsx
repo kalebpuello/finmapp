@@ -57,7 +57,7 @@ export default function AppTour() {
           element: '#tour-recent', 
           popover: { 
             title: '🕒 Actividad Reciente', 
-            description: 'Tus últimos 5 movimientos aparecen aquí. Puedes ver el historial completo dándole clic al enlace azul.',
+            description: 'Tus últimos 5 movimientos aparecen aquí. Puedes ver el historial completo dándole click en Ver historial completo.',
             side: "top", 
             align: 'start' 
           } 
@@ -93,12 +93,15 @@ export default function AppTour() {
           element: '#tour-profile', 
           popover: { 
             title: '👤 Tu Perfil', 
-            description: 'Configura tu nombre, contraseña y preferencias internacionales como moneda e idioma desde aquí.',
+            description: 'Configura tu nombre, contraseña, Tema y preferencias internacionales como moneda desde aquí.',
             side: "bottom", 
             align: 'end' 
           } 
         }
-      ]
+      ],
+      onDestroyed: () => {
+        window.dispatchEvent(new Event('tour-finished'))
+      }
     })
 
     driverObj.drive()

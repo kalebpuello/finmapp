@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import ThemeColorManager from "@/components/theme/ThemeColorManager";
+import GlobalModals from "@/components/dashboard/GlobalModals";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,6 +18,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Finmapp - Tu Salud Financiera",
   description: "Gestiona tus finanzas personales de forma sencilla",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Finmapp",
+  },
 };
 
 export default function RootLayout({
@@ -25,6 +33,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
+      <head>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300`}
       >
@@ -34,6 +46,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <ThemeColorManager />
+          <GlobalModals />
           {children}
         </ThemeProvider>
       </body>

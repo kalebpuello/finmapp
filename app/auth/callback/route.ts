@@ -12,19 +12,17 @@ export async function GET(request: Request) {
     const supabase = await createClient()
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      const forwardedHost = request.headers.get('x-forwarded-host') // original origin before load balancer
       const isLocalEnv = process.env.NODE_ENV === 'development'
-      if (isLocalEnv) {
-        // we can skip check for localhost, as it's a known safe origin
-        return NextResponse.redirect(`${origin}${next}`)
-      } else if (forwardedHost) {
-        return NextResponse.redirect(`https://${forwardedHost}${next}`)
-      } else {
-        return NextResponse.redirect(`${origin}${next}`)
-      }
+      const productionUrl = 'https://finmapp.vercel.app'
+      const baseUrl = isLocalEnv ? origin : productionUrl
+      
+      return NextResponse.redirect(`${baseUrl}${next}`)
     }
   }
 
   // return the user to an error page with instructions
-  return NextResponse.redirect(`${origin}/login?error=Could not authenticate user`)
+  const isLocalEnv = process.env.NODE_ENV === 'development'
+  const productionUrl = 'https://finmapp.vercel.app'
+  const baseUrl = isLocalEnv ? origin : productionUrl
+  return NextResponse.redirect(`${baseUrl}/login?error=Could not authenticate user`)
 }
