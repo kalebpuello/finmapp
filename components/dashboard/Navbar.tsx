@@ -14,6 +14,7 @@ interface NavbarProps {
   title?: string
   language?: Language
   lastVersionSeen?: string
+  userId?: string
 }
 
 export default function Navbar({ 
