@@ -62,6 +62,12 @@ const SupportModal = ({ isOpen, onClose, language = 'es' }: SupportModalProps) =
                 {copiedType === 'email' ? <Check size={20} /> : <Copy size={20} />}
               </button>
             </div>
+            <div className="mt-4 flex flex-col items-center gap-1 opacity-60">
+              <span className="text-[10px] font-black uppercase tracking-widest text-amber-900 dark:text-amber-500">{supportEmail}</span>
+              <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-amber-700 dark:text-amber-400">
+                <Clock size={10} /> {t.response_time}
+              </div>
+            </div>
           </section>
 
           {/* SECCIÓN 2: CRÉDITOS Y SOFTWARE */}
