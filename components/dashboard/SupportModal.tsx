@@ -32,6 +32,7 @@ const SupportModal = ({ isOpen, onClose, language = 'es' }: SupportModalProps) =
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6">
       <div className="absolute inset-0 bg-black/80 backdrop-blur-md animate-in fade-in duration-300" onClick={onClose} />
       <div className="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 w-full max-w-xl rounded-[2.5rem] p-0 shadow-2xl animate-in zoom-in duration-300 text-gray-900 dark:text-white max-h-[90vh] overflow-hidden flex flex-col">
+        
         {/* Header */}
         <div className="flex justify-between items-center p-8 border-b border-gray-100 dark:border-gray-800 bg-white/50 dark:bg-gray-900/50 backdrop-blur-md z-10">
           <div className="flex items-center gap-3 text-emerald-600 dark:text-emerald-500">
@@ -43,8 +44,10 @@ const SupportModal = ({ isOpen, onClose, language = 'es' }: SupportModalProps) =
           </button>
         </div>
 
-        {/* Contenido */}
+        {/* Contenido Scrollable */}
         <div className="p-8 space-y-12 overflow-y-auto custom-scrollbar flex-1 bg-gray-50/30 dark:bg-transparent">
+          
+          {/* SECCIÓN 1: REPORTE DE ERRORES */}
           <section className="space-y-6 bg-amber-50/30 dark:bg-amber-500/5 p-8 rounded-[2.5rem] border border-amber-100 dark:border-amber-900/20 text-center">
             <div className="bg-white dark:bg-amber-900/20 w-12 h-12 rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-4 text-amber-600">
               <Bug size={24} />
@@ -61,6 +64,7 @@ const SupportModal = ({ isOpen, onClose, language = 'es' }: SupportModalProps) =
             </div>
           </section>
 
+          {/* SECCIÓN 2: CRÉDITOS Y SOFTWARE */}
           <section className="space-y-6 bg-white dark:bg-gray-800/40 p-6 rounded-3xl border border-gray-100 dark:border-gray-800">
             <div className="flex items-center gap-2 mb-2">
               <FileText size={18} className="text-emerald-600" />
@@ -91,11 +95,24 @@ const SupportModal = ({ isOpen, onClose, language = 'es' }: SupportModalProps) =
                 {language === 'es' ? 'Construido con un stack de alto rendimiento: Next.js 14, Tailwind CSS v4 y Supabase para una gestión de datos segura y escalable.' : 'Built with a high-performance stack: Next.js 14, Tailwind CSS v4 and Supabase for secure and scalable data management.'}
               </p>
             </div>
+            <div className="p-4 bg-emerald-50/50 dark:bg-emerald-500/5 rounded-2xl border border-emerald-100 dark:border-emerald-500/10">
+              <div className="flex items-center gap-2 mb-2 text-emerald-600">
+                <Target size={16} />
+                <span className="text-[10px] font-black uppercase tracking-widest">{t.purpose}</span>
+              </div>
+              <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+                {t.purpose_desc}
+              </p>
+            </div>
           </section>
 
+          {/* SECCIÓN 3: APOYO ECONÓMICO */}
           <section className="bg-emerald-600 rounded-[2.5rem] p-8 text-white shadow-xl shadow-emerald-500/20 relative overflow-hidden text-center">
             <Heart size={120} className="absolute -right-8 -bottom-8 opacity-10 rotate-12" />
             <h3 className="text-xl font-black uppercase tracking-tighter mb-2 relative z-10">{language === 'es' ? 'Apoyar el Proyecto' : 'Support the Project'}</h3>
+            <p className="text-xs text-emerald-50/80 leading-relaxed font-medium mb-8 max-w-sm mx-auto relative z-10">
+              {language === 'es' ? 'Si te gusta Finmapp, ayúdanos a mantener los servidores y seguir mejorando la herramienta para todos.' : 'If you like Finmapp, help us maintain the servers and keep improving the tool for everyone.'}
+            </p>
             <div className="grid grid-cols-1 gap-4 relative z-10">
               <a href={paypalUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 py-4 bg-white text-emerald-600 rounded-2xl font-black text-sm hover:scale-[1.02] transition-transform shadow-lg">
                 <Coffee size={20} /> {language === 'es' ? 'DONAR CON PAYPAL' : 'DONATE WITH PAYPAL'}
@@ -116,11 +133,17 @@ const SupportModal = ({ isOpen, onClose, language = 'es' }: SupportModalProps) =
             </div>
           </section>
 
+          {/* SECCIÓN 4: UNIRSE AL EQUIPO */}
           <section className="bg-gray-100 dark:bg-gray-800/40 p-8 rounded-[2.5rem] border border-gray-200 dark:border-gray-800 text-center">
             <div className="bg-white dark:bg-gray-800 w-12 h-12 rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-4 text-emerald-600">
               <Code2 size={24} />
             </div>
             <h4 className="text-lg font-black text-gray-900 dark:text-white uppercase tracking-tighter mb-2">{language === 'es' ? '🚀 Únete a la Causa' : '🚀 Join the Cause'}</h4>
+            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mb-8 max-w-xs mx-auto">
+              {language === 'es' 
+                ? '¿Eres dev o diseñador? Queremos conocer personas que compartan nuestra visión para llevar a Finmapp al siguiente nivel como un proyecto de comunidad.' 
+                : 'Are you a dev or designer? We want to meet people who share our vision to take Finmapp to the next level as a community project.'}
+            </p>
             <div className="flex gap-2">
               <a href={joinFormUrl} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 py-4 bg-gray-900 dark:bg-emerald-600 hover:bg-black dark:hover:bg-emerald-500 text-white rounded-2xl font-black text-sm transition-all active:scale-95 shadow-xl shadow-black/10">
                 <ExternalLink size={18} /> {language === 'es' ? 'ENVIAR INTERÉS' : 'SEND INTEREST'}
@@ -129,6 +152,9 @@ const SupportModal = ({ isOpen, onClose, language = 'es' }: SupportModalProps) =
                 {copiedType === 'form' ? <Check size={20} className="text-emerald-600" /> : <Copy size={20} />}
               </button>
             </div>
+            <p className="mt-4 text-[9px] text-gray-400 font-medium italic">
+              * El botón de copia está disponible si el enlace directo falla.
+            </p>
           </section>
 
           <div className="pt-4 pb-8 text-center">
