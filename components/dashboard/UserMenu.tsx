@@ -1,0 +1,94 @@
+'use client'
+
+import { useState, useRef, useEffect } from 'react'
+import Link from 'next/link'
+import { User, LogOut, Settings, ChevronDown, ShieldQuestion } from 'lucide-react'
+import SupportModal from './SupportModal'
+import { translations, Language } from '@/lib/utils/translations'
+
+interface UserMenuProps {
+  username: string
+  language?: Language
+}
+
+export default function UserMenu({ username, language = 'es' }: UserMenuProps) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [isSupportOpen, setIsSupportOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+  
+  const t = translations[language].nav
+
+  // Cerrar el menú si se hace clic fuera
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  return (
+    <>
+      <div className="relative" ref={menuRef}>
+        <button
+          id="tour-profile"
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex items-center gap-2 p-1.5 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-2xl transition-all border border-transparent hover:border-gray-200 dark:hover:border-gray-800"
+        >
+          <div className="bg-emerald-600 p-2 rounded-xl text-white shadow-lg shadow-emerald-500/20">
+            <User size={18} />
+          </div>
+          <div className="text-left hidden sm:block">
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">{t.profile}</p>
+            <p className="text-sm font-bold text-gray-900 dark:text-gray-200 leading-none">{username}</p>
+          </div>
+          <ChevronDown size={14} className={`text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        </button>
+
+        {/* Dropdown Menu (Tooltip Style) */}
+        {isOpen && (
+          <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-xl z-[100] overflow-hidden animate-in fade-in zoom-in duration-100 origin-top-right">
+            <div className="p-2">
+              <Link
+                href="/profile"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 hover:text-emerald-600 dark:hover:text-emerald-500 rounded-xl transition-colors"
+              >
+                <Settings size={18} />
+                {t.edit_profile}
+              </Link>
+
+              <button
+                onClick={() => {
+                  setIsSupportOpen(true)
+                  setIsOpen(false)
+                }}
+                className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 hover:text-emerald-600 dark:hover:text-emerald-500 rounded-xl transition-colors"
+              >
+                <ShieldQuestion size={18} />
+                {t.support}
+              </button>
+              
+              <div className="h-[1px] bg-gray-100 dark:bg-gray-800 my-1 mx-2"></div>
+              
+              <form action="/auth/signout" method="post" className="w-full">
+                <button
+                  type="submit"
+                  className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-xl transition-colors"
+                >
+                  <LogOut size={18} />
+                  {t.logout}
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Modal de Soporte */}
+      <SupportModal isOpen={isSupportOpen} onClose={() => setIsSupportOpen(false)} />
+    </>
+  )
+}

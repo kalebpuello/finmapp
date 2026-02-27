@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f9fafb; margin: 0; padding: 0; }
+    .container { max-width: 450px; margin: 40px auto; background-color: #ffffff; border-radius: 24px; padding: 40px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; }
+    .logo { color: #10b981; font-size: 24px; font-weight: 900; text-align: center; margin-bottom: 30px; letter-spacing: -1px; text-transform: uppercase; }
+    h2 { color: #0f172a; font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 16px; letter-spacing: -0.5px; }
+    p { color: #64748b; font-size: 15px; line-height: 1.6; text-align: center; margin-bottom: 30px; }
+    .btn-container { text-align: center; }
+    .btn { background-color: #10b981; color: #ffffff !important; padding: 16px 32px; border-radius: 16px; text-decoration: none; font-weight: 700; font-size: 14px; display: inline-block; transition: background-color 0.2s; box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3); text-transform: uppercase; letter-spacing: 0.5px; }
+    .footer { margin-top: 40px; text-align: center; color: #94a3b8; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    .divider { border: none; border-top: 1px solid #f1f5f9; margin: 30px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">Finmapp</div>
+    <h2>¡Hola! Confirma tu cuenta</h2>
+    <p>Te damos la bienvenida a la gestión financiera inteligente. Para comenzar a controlar tus ahorros y gastos, confirma tu correo electrónico presionando el botón de abajo:</p>
+    <div class="btn-container">
+      <a href="{{ .ConfirmationURL }}" class="btn">Confirmar mi correo</a>
+    </div>
+    <div class="divider"></div>
+    <p style="font-size: 12px; margin-bottom: 0;">Si no creaste una cuenta en Finmapp, puedes ignorar este mensaje con total seguridad.</p>
+    <div class="footer">© 2026 Finmapp Security System</div>
+  </div>
+</body>
+</html>

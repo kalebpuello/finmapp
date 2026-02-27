@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+}
+
+.dark {
+  --background: #030712;
+  --foreground: #f8fafc;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* ============================================================ */
+/* MODERN SCROLLBAR DESIGN                                      */
+/* ============================================================ */
+
+/* Custom scrollbar for the whole app and specific modals */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e2e8f0; /* Light mode thumb */
+  border-radius: 20px;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #1f2937; /* Dark mode thumb */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #10b981; /* Emerald on hover */
+}
+
+/* ============================================================ */
+/* FIXED MODERN FINMAPP WIZARD (DRIVER.JS)                      */
+/* ============================================================ */
+
+.driver-overlay {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.driver-stage {
+  background-color: transparent !important;
+  box-shadow: 0 0 0 4px #10b981 !important;
+  border-radius: 24px !important;
+}
+
+.driver-active-highlighted-element {
+  z-index: 10000 !important;
+  filter: none !important;
+  opacity: 1 !important;
+  background-color: inherit !important;
+}
+
+.driver-popover {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-radius: 24px !important;
+  padding: 24px !important;
+  border: none !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3) !important;
+  font-family: var(--font-geist-sans), sans-serif !important;
+  max-width: 350px !important;
+}
+
+.dark .driver-popover {
+  background-color: #111827 !important;
+  color: #f8fafc !important;
+}
+
+.driver-popover-title {
+  font-weight: 900 !important;
+  font-size: 22px !important;
+  color: #10b981 !important;
+}
+
+.driver-popover-next-btn {
+  background-color: #10b981 !important;
+  color: white !important;
+  border-radius: 14px !important;
+}
+
+.driver-popover-arrow, .driver-popover-close-btn {
+  display: none !important;
+}
