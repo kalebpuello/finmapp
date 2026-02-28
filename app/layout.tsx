@@ -35,7 +35,10 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="theme-color" content="#059669" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#030712" media="(prefers-color-scheme: dark)" />
+        <link rel="apple-touch-icon" href="/icon.svg" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300`}
