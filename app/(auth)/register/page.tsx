@@ -40,8 +40,13 @@ export default function RegisterPage() {
       setMessage({ text: error.message, type: 'error' })
       setLoading(false)
     } else {
-      setMessage({ text: 'Registro exitoso. Revisa tu correo electrónico para confirmar la cuenta.', type: 'success' })
+      setMessage({ text: '¡Cuenta creada con éxito! Redirigiendo al inicio de sesión...', type: 'success' })
       setLoading(false)
+      
+      // Redirigir al login después de 2 segundos para que el usuario lea el mensaje
+      setTimeout(() => {
+        router.push('/login')
+      }, 2500)
     }
   }
 
