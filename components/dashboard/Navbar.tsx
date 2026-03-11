@@ -27,7 +27,7 @@ export default function Navbar({
   const [mounted, setMounted] = useState(false)
   const [showDot, setShowDot] = useState(false)
   const t = translations[language].nav
-  const CURRENT_VERSION = '1.2.0'
+  const CURRENT_VERSION = '1.3.0'
 
   useEffect(() => {
     setMounted(true)

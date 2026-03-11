@@ -1,6 +1,6 @@
 'use client'
 
-import { Sparkles, Smartphone, Palette, AlertTriangle, ShieldCheck, Calendar, X } from 'lucide-react'
+import { Sparkles, Smartphone, Palette, AlertTriangle, ShieldCheck, Calendar, X, Chrome, MousePointer2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
 const APP_VERSION = '1.2.0'
@@ -34,8 +34,29 @@ const WhatsNewModal = ({ userProfile, isOpen, onClose }: WhatsNewModalProps) => 
 
   const releases = [
     {
+      version: "v1.3.0",
+      date: "27 de Febrero, 2026",
+      features: [
+        {
+          icon: <Chrome className="text-blue-500" />,
+          title: "Acceso con Google",
+          desc: "Inicia sesión de forma más rápida y segura usando tu cuenta de Google."
+        },
+        {
+          icon: <MousePointer2 className="text-emerald-500" />,
+          title: "Confirmación de Salida",
+          desc: "Hemos añadido un paso de seguridad para evitar cierres de sesión accidentales."
+        },
+        {
+          icon: <Palette className="text-violet-500" />,
+          title: "Branding Renovado",
+          desc: "Nuevo icono premium y mejoras visuales en el App Tour con colores dinámicos."
+        }
+      ]
+    },
+    {
       version: "v1.2.0",
-      date: "Febrero 2026",
+      date: "26 Febrero 2026",
       features: [
         {
           icon: <Smartphone className="text-blue-500" />,
@@ -51,11 +72,6 @@ const WhatsNewModal = ({ userProfile, isOpen, onClose }: WhatsNewModalProps) => 
           icon: <AlertTriangle className="text-rose-500" />,
           title: "Gestión de Deuda",
           desc: "Alertas visuales automáticas cuando tu saldo es negativo."
-        },
-        {
-          icon: <ShieldCheck className="text-emerald-500" />,
-          title: "Seguridad Pro",
-          desc: "Confirmación obligatoria con contraseña para cambios críticos."
         }
       ]
     }
